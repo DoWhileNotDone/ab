@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+.git
+.github
+.vscode
+.docker
+vendor
+node_modules
+public/build
+storage/logs/*

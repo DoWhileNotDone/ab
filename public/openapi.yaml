@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: Interview API
+  description: HTTP API for the Laravel interview starter.
+  version: 1.0.0
+servers:
+  - url: /
+    description: Current host
+paths:
+  /api/health:
+    get:
+      operationId: getApiHealth
+      summary: Check API health
+      description: Returns a simple status response to confirm the API is reachable.
+      tags:
+        - Health
+      responses:
+        "200":
+          description: The API is healthy.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - ok
+              example:
+                status: ok

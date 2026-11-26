@@ -1,0 +1,9 @@
+@baseUrl = http://localhost:8080
+
+### API health check
+GET {{baseUrl}}/api/health
+Accept: application/json
+
+### Laravel framework health check
+GET {{baseUrl}}/up
+Accept: application/json

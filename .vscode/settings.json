@@ -1,0 +1,8 @@
+{
+  "terminal.integrated.defaultProfile.osx": "bash",
+  "phpSniffer.autoDetect": true,
+  "phpSniffer.run": "onType",
+  "[php]": {
+    "editor.defaultFormatter": "wongjn.php-sniffer"
+  }
+}
