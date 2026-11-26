@@ -22,6 +22,12 @@ docker compose exec app php artisan migrate
 
 This starts Nginx, PHP-FPM, and MySQL. Keep the services running while developing; add `-d` to `docker compose up --build` to run them in the background. The API is available at <http://localhost:8080/api/health>. `GET /up` is Laravel's framework health endpoint.
 
+## Laravel Boost MCP
+
+Laravel Boost is included as a development dependency, with its MCP server configured for GitHub Copilot in [`.vscode/mcp.json`](./.vscode/mcp.json). After installing Composer dependencies as above, open the repository in VS Code and trust the workspace when prompted. Copilot launches the server using `docker compose run`, so PHP does not need to be installed on the host. Docker Desktop must be running.
+
+To start the server manually, use **MCP: List Servers** from the Command Palette, select `laravel-boost`, then choose **Start Server**.
+
 ## API documentation
 
 Build the frontend and local Swagger UI assets with Node.js 24 in Docker:
