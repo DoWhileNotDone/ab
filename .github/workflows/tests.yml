@@ -13,57 +13,30 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.4
-        env:
-          MYSQL_DATABASE: interview
-          MYSQL_USER: interview
-          MYSQL_PASSWORD: secret
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-    env:
-      DB_CONNECTION: mysql
-      DB_HOST: 127.0.0.1
-      DB_PORT: 3306
-      DB_DATABASE: interview
-      DB_USERNAME: interview
-      DB_PASSWORD: secret
     steps:
       - uses: actions/checkout@v5
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.3"
-          extensions: mbstring, pdo_mysql
-          coverage: pcov
-          tools: composer:v2
+      - name: Build and start Docker Compose services
+        run: docker compose up --build -d
       - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist
+        run: docker compose exec -T app composer install --no-interaction --prefer-dist
       - name: Audit dependencies
-        run: composer audit
+        run: docker compose exec -T app composer audit
       - name: Prepare application
         run: |
           cp .env.example .env
-          php artisan key:generate
+          docker compose exec -T app php artisan key:generate --force
       - name: Run database migrations
-        run: php artisan migrate --force
+        run: docker compose exec -T app php artisan migrate --force
       - name: Check PHP coding standards
-        run: composer lint
+        run: docker compose exec -T app composer lint
       - name: Run static analysis
-        run: composer analyse
+        run: docker compose exec -T app composer analyse
       - name: Prepare coverage output directory
         run: mkdir -p build/coverage
       - name: Run unit tests with coverage
-        run: php artisan test --testsuite=Unit --coverage --min=5 --coverage-clover=build/coverage/unit.xml --coverage-html=build/coverage/unit-html
+        run: docker compose exec -T app php artisan test --testsuite=Unit --coverage --min=5 --coverage-clover=build/coverage/unit.xml --coverage-html=build/coverage/unit-html
       - name: Run functional tests with coverage
-        run: php artisan test --testsuite=Feature --coverage --min=5 --coverage-clover=build/coverage/functional.xml --coverage-html=build/coverage/functional-html
+        run: docker compose exec -T app php artisan test --testsuite=Feature --coverage --min=5 --coverage-clover=build/coverage/functional.xml --coverage-html=build/coverage/functional-html
       - name: Upload coverage reports
         if: always()
         uses: actions/upload-artifact@v5
@@ -72,3 +45,6 @@ jobs:
           path: build/coverage/
           if-no-files-found: warn
           retention-days: 14
+      - name: Stop Docker Compose services
+        if: always()
+        run: docker compose down --remove-orphans
