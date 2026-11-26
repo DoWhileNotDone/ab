@@ -2,6 +2,8 @@
 
 Use this as a process guide when the exercise domain is revealed, not as a solution to prepare in advance. The brief describes a collaborative, backend-focused PHP and MySQL HTTP API task. The aim is to show clear thinking, sensible trade-offs, readable code, and how you communicate—not to deliver a polished or complete system.
 
+For a fictional prompt to practise this process, see [the mock room-booking exercise](./practice-exercise.md).
+
 ## Before the interview
 
 - Confirm the IDE opens the project and Git works.
