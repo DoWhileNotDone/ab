@@ -7,3 +7,44 @@ Accept: application/json
 ### Laravel framework health check
 GET {{baseUrl}}/up
 Accept: application/json
+
+@exampleClassId = 1
+
+### List example classes
+GET {{baseUrl}}/api/example-classes
+Accept: application/json
+
+### Create an example class
+POST {{baseUrl}}/api/example-classes
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Example 123"
+}
+
+### Get an example class
+GET {{baseUrl}}/api/example-classes/{{exampleClassId}}
+Accept: application/json
+
+### Replace an example class
+PUT {{baseUrl}}/api/example-classes/{{exampleClassId}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Updated Example 456"
+}
+
+### Update an example class
+PATCH {{baseUrl}}/api/example-classes/{{exampleClassId}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Patched Example 789"
+}
+
+### Delete an example class
+DELETE {{baseUrl}}/api/example-classes/{{exampleClassId}}
+Accept: application/json

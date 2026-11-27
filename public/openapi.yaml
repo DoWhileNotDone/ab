@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Interview API
-  description: HTTP API for the Laravel interview starter.
+  description: HTTP API for the Laravel interview starter. Example class API requests are logged to `.tmp/requests.log`.
   version: 1.0.0
 servers:
   - url: /
@@ -30,3 +30,206 @@ paths:
                       - ok
               example:
                 status: ok
+  /api/example-classes:
+    get:
+      operationId: listExampleClasses
+      summary: List example classes
+      tags:
+        - Example classes
+      responses:
+        "200":
+          description: The example classes, ordered by ID.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ExampleClass"
+        "500":
+          $ref: "#/components/responses/ServerError"
+    post:
+      operationId: createExampleClass
+      summary: Create an example class
+      tags:
+        - Example classes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExampleClassInput"
+            example:
+              name: Example 123
+      responses:
+        "201":
+          description: The example class was created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExampleClass"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/ServerError"
+  /api/example-classes/{id}:
+    parameters:
+      - $ref: "#/components/parameters/ExampleClassId"
+    get:
+      operationId: getExampleClass
+      summary: Get an example class
+      tags:
+        - Example classes
+      responses:
+        "200":
+          description: The requested example class.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExampleClass"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/ServerError"
+    put:
+      operationId: replaceExampleClass
+      summary: Update an example class
+      tags:
+        - Example classes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExampleClassInput"
+            example:
+              name: Updated Example 456
+      responses:
+        "200":
+          description: The example class was updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExampleClass"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/ServerError"
+    patch:
+      operationId: updateExampleClass
+      summary: Update an example class
+      tags:
+        - Example classes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExampleClassInput"
+            example:
+              name: Updated Example 456
+      responses:
+        "200":
+          description: The example class was updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExampleClass"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/ServerError"
+    delete:
+      operationId: deleteExampleClass
+      summary: Delete an example class
+      tags:
+        - Example classes
+      responses:
+        "204":
+          description: The example class was deleted.
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/ServerError"
+components:
+  parameters:
+    ExampleClassId:
+      name: id
+      in: path
+      required: true
+      description: The auto-generated unique example class ID.
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+  schemas:
+    ExampleClass:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1
+        name:
+          type: string
+          maxLength: 50
+          description: Up to 50 Unicode letters, numbers, and whitespace characters.
+          example: Example 123
+    ExampleClassInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Up to 50 Unicode letters, numbers, and whitespace characters.
+          example: Example 123
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: The given data was invalid.
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+  responses:
+    NotFound:
+      description: No example class exists with the requested ID.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            message: No query results for model [App\Models\ExampleClass] 999
+    ValidationError:
+      description: The request body is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            message: The name field must not be greater than 50 characters.
+            errors:
+              name:
+                - The name field must not be greater than 50 characters.
+    ServerError:
+      description: An unexpected server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
