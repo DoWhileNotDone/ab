@@ -39,7 +39,7 @@ docker run --rm -v "$PWD:/app" -w /app node:24 npm run build
 
 Open <http://localhost:8080/api-docs/> while the Docker services are running to browse the API in Swagger UI. The OpenAPI 3.0 specification is available at <http://localhost:8080/openapi.yaml> and is maintained in [`public/openapi.yaml`](./public/openapi.yaml). The build copies Swagger UI into `public/api-docs/swagger-ui-dist`, so the browser does not need access to an external CDN.
 
-Stop the services with `docker compose down`. MySQL data is kept in a named volume when services stop.
+Stop the services with `docker compose down`. MySQL data is stored locally in the git-ignored `.data/mysql` directory and is kept when services stop.
 
 ## Tests and code style
 
