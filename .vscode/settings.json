@@ -1,8 +1,8 @@
 {
   "terminal.integrated.defaultProfile.osx": "bash",
-  "phpSniffer.autoDetect": true,
-  "phpSniffer.run": "onType",
+  "laravel-pint.preset": "psr12",
   "[php]": {
-    "editor.defaultFormatter": "wongjn.php-sniffer"
+    "editor.defaultFormatter": "open-southeners.laravel-pint",
+    "editor.formatOnSave": true
   }
 }

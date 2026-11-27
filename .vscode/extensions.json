@@ -2,6 +2,7 @@
   "recommendations": [
     "humao.rest-client",
     "ms-azuretools.vscode-docker",
-    "github.vscode-pull-request-github"
+    "github.vscode-pull-request-github",
+    "open-southeners.laravel-pint"
   ]
 }

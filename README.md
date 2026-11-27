@@ -56,7 +56,7 @@ The feature suite includes HTTP tests for the example health route and confirms 
 
 ## Execute API requests
 
-Install the recommended extensions from `.vscode/extensions.json`, including REST Client and PHP Sniffer. PHP Sniffer reports PSR-12 diagnostics in the editor and can use the project-local `vendor/bin/phpcs`. Start the Docker services, open [`requests/api.http`](./requests/api.http) in VS Code, and use **Send Request** above a request to call the local API. The file includes both the example API endpoint and Laravel's framework health endpoint.
+Install the recommended extensions from `.vscode/extensions.json`, including REST Client and Laravel Pint. VS Code uses Pint with the PSR-12 preset to format PHP files on save; `composer lint` continues to run PHP_CodeSniffer as the project lint check. Pint's VS Code extension runs the project formatter through host PHP, so PHP must be available locally for format-on-save. Start the Docker services, open [`requests/api.http`](./requests/api.http) in VS Code, and use **Send Request** above a request to call the local API. The file includes both the example API endpoint and Laravel's framework health endpoint.
 
 ## GitHub
 
