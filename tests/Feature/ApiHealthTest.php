@@ -6,6 +6,12 @@ use Tests\TestCase;
 
 class ApiHealthTest extends TestCase
 {
+    public function testRootDoesNotServeALaravelWelcomePage(): void
+    {
+        $this->get('/')
+            ->assertNotFound();
+    }
+
     public function testApiHealthEndpointReturnsJson(): void
     {
         $this->getJson('/api/health')

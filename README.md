@@ -1,6 +1,6 @@
-# Laravel Interview Starter
+# Laravel API Starter
 
-A backend-focused Laravel 12 starter for a PHP 8.3+ HTTP API backed by MySQL. It is intentionally a small skeleton, not a prebuilt solution to an interview exercise.
+A backend-focused Laravel 12 starter for a PHP 8.3+ HTTP API backed by MySQL. It provides API routes, local request examples, and API documentation without a web UI, authentication, or sample domain models.
 
 ## Requirements
 
@@ -30,7 +30,7 @@ To start the server manually, use **MCP: List Servers** from the Command Palette
 
 ## API documentation
 
-Build the frontend and local Swagger UI assets with Node.js 24 in Docker:
+Build the local Swagger UI assets with Node.js 24 in Docker:
 
 ```sh
 docker run --rm -v "$PWD:/app" -w /app node:24 npm ci
@@ -43,17 +43,16 @@ Stop the services with `docker compose down`. MySQL data is kept in a named volu
 
 ## Tests and code style
 
-Feature tests use Laravel's HTTP testing tools. The test environment is configured for the MySQL service used by Compose and GitHub Actions, so database-backed feature tests can share that setup.
+Feature tests use Laravel's HTTP testing tools. The project is configured for the MySQL service used by Compose and GitHub Actions, so database-backed API tests can share that setup.
 
 ```sh
 docker compose exec app composer test
-docker compose exec app composer test:unit
 docker compose exec app composer test:feature
 docker compose exec app composer lint
 docker compose exec app composer analyse
 ```
 
-`tests/Unit` and `tests/Feature` are separate PHPUnit suites. The feature suite includes an HTTP test for the example health route. `composer lint` checks PHP files against PSR-12 with PHP_CodeSniffer, and `composer analyse` runs PHPStan with Larastan at level 5. Add behavior-focused tests before implementation, then run the narrowest relevant suite and the full suite before finishing.
+The feature suite includes HTTP tests for the example health route and confirms there is no default Laravel welcome page. `composer lint` checks PHP files against PSR-12 with PHP_CodeSniffer, and `composer analyse` runs PHPStan with Larastan at level 5. Add behavior-focused tests before implementation, then run the narrowest relevant suite and the full suite before finishing.
 
 ## Execute API requests
 
@@ -61,4 +60,4 @@ Install the recommended extensions from `.vscode/extensions.json`, including RES
 
 ## GitHub
 
-The repository includes a GitHub Actions workflow that builds and runs this project's Docker Compose services, then runs Composer, migrations, dependency auditing, PSR-12, PHPStan, and the PHPUnit suites with coverage thresholds inside the PHP container. It uses the checked-in Dockerfiles and Compose configuration; the images are built on the GitHub runner and do not need to be published to a registry. Clover and HTML coverage reports are uploaded as the `php-coverage` workflow artifact. To view them, open a completed workflow run, download the `php-coverage` artifact, unzip it, then open `unit-html/index.html` or `functional-html/index.html` in a browser. To publish this folder, create an empty GitHub repository and add it as the `origin` remote before pushing.
+The repository includes a GitHub Actions workflow that builds and runs this project's Docker Compose services, then runs Composer, migrations, dependency auditing, PSR-12, PHPStan, and the feature suite with a coverage threshold inside the PHP container. It uses the checked-in Dockerfiles and Compose configuration; the images are built on the GitHub runner and do not need to be published to a registry. The HTML and Clover coverage reports are uploaded as the `php-coverage` workflow artifact. To publish this folder, create an empty GitHub repository and add it as the `origin` remote before pushing.

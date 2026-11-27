@@ -33,9 +33,7 @@ jobs:
         run: docker compose exec -T app composer analyse
       - name: Prepare coverage output directory
         run: mkdir -p build/coverage
-      - name: Run unit tests with coverage
-        run: docker compose exec -T app php artisan test --testsuite=Unit --coverage --min=5 --coverage-clover=build/coverage/unit.xml --coverage-html=build/coverage/unit-html
-      - name: Run functional tests with coverage
+      - name: Run feature tests with coverage
         run: docker compose exec -T app php artisan test --testsuite=Feature --coverage --min=5 --coverage-clover=build/coverage/functional.xml --coverage-html=build/coverage/functional-html
       - name: Upload coverage reports
         if: always()
